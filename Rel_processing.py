@@ -20,7 +20,7 @@ def final_text_processing(path, path_, based_md= 'en_core_web_sm', override=Fals
         dataset, rel_dic = relevancy(path_, dataset)
     
     json_object = json.dumps(dataset, indent = 4)
-    with open('./dataset.json', 'w') as settings:
+    with open('./Cran/dataset.json', 'w') as settings:
         settings.write(json_object)
     json_object = json.dumps(rel_dic, indent = 4)
     with open('./Cran/rel_dic.json', 'w') as settings:

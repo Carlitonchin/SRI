@@ -1,4 +1,5 @@
 from text_processing import query_processing
+import math
 
 def _calculateMaxs(documents_dict):
     max_per_document = {}
@@ -8,7 +9,7 @@ def _calculateMaxs(documents_dict):
         localMax = 0
 
         for w in documents_dict[title]["words"]:
-            localMax = max(localMax, documets_dict[title]["words"][w])
+            localMax = max(localMax, documents_dict[title]["words"][w])
             try:
                 count_words[w] += 1
             except KeyError:
@@ -16,7 +17,7 @@ def _calculateMaxs(documents_dict):
 
         max_per_document[title] = localMax
 
-    return max_per_document, N
+    return max_per_document, count_words
 
 
 def _wordFrequencyQuery(query):
@@ -26,7 +27,7 @@ def _wordFrequencyQuery(query):
     for w in query:
         try:
             frequency[w] += 1
-        except
+        except KeyError:
             frequency[w] = 1
         maxW = max(frequency[w], maxW)
 
@@ -44,7 +45,7 @@ class VectorialModel:
     def __init__(self, documents_dict):
         self.documents_dict = documents_dict
         self.max_per_document, self.count_words = _calculateMaxs(documents_dict)
-        self.total_documents = len(document_dict)
+        self.total_documents = len(documents_dict)
 
     def tf(self, document, word):
         try:
@@ -53,7 +54,7 @@ class VectorialModel:
         except KeyError:
             return 0
 
-    def idf(word):
+    def idf(self, word):
         try:
             return math.log(self.total_documents/(self.count_words[word]))
         except KeyError:
@@ -61,22 +62,22 @@ class VectorialModel:
 
     def calculateWQuery(self, query, frequency, maxW):
         a = 0.5
-        w = []
+        w = {}
         for word in query:
-            wq = idf(word) * (a + (1-a) * (frequency[word]/maxW))
+            wq = self.idf(word) * (a + (1-a) * (frequency[word]/maxW))
             w[word] = wq
 
         return w 
 
-    def search(query):
+    def search(self,query):
         query = query_processing(query, 'en_core_web_sm')
         response = []
         for d in self.documents_dict:
-            if sim(d, q) >= 0.6:
+            if self.sim(d, query) >= 0.6:
                 response.append(Document(d, self.documents_dict[d]["num"]))
         return response
 
-    def sim(document, query):
+    def sim(self, document, query):
         frequency, maxW = _wordFrequencyQuery(query)
         wq = self.calculateWQuery(query, frequency, maxW)
         wjXwq = 0
@@ -85,7 +86,7 @@ class VectorialModel:
         wjTotal2 = 0
 
         for w in query:
-            wj = tf(document, w)*idf(w)
+            wj = self.tf(document, w) * self.idf(w)
             try:
                 wjXwq += wj * wq[w]
                 wqTotal2 += wq[w]*wq[w]
@@ -93,10 +94,13 @@ class VectorialModel:
                 pass
 
         for w in self.documents_dict[document]["words"]:
-            wj = tf(document, w) * idf(w)
+            wj = self.tf(document, w) * self.idf(w)
             wjTotal2 = wj*wj
 
         den = math.sqrt(wjTotal2) * math.sqrt(wqTotal2)
 
-        return wjXwq/den
+        if den != 0:
+            return wjXwq/den
+        
+        return 0
 
