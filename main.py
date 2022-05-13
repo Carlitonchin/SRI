@@ -1,4 +1,5 @@
 from vectorial_model import VectorialModel
+from evaluation import recover_mean, precision_mean
 import json
 
 def print_recovereds(docs):
@@ -19,6 +20,9 @@ except:
     exit(0)
 
 model = VectorialModel(documents_dict)
+
+print("Recover mean:", recover_mean(model))
+print("Precision mean:", precision_mean(model))
 
 while True:
     query = input("Escribe una query y presiona enter:\n")
