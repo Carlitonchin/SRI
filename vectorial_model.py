@@ -1,3 +1,5 @@
+from text_processing import query_processing
+
 def _calculateMaxs(documents_dict):
     max_per_document = {}
     count_words = {}
@@ -17,7 +19,26 @@ def _calculateMaxs(documents_dict):
     return max_per_document, N
 
 
+def _wordFrequencyQuery(query):
+    maxW = 0
+    frequency = {}
 
+    for w in query:
+        try:
+            frequency[w] += 1
+        except
+            frequency[w] = 1
+        maxW = max(frequency[w], maxW)
+
+    return frequency, maxW
+
+class Document:
+    def __init__(self, title, num):
+        self.title = title
+        self.num = num
+    
+    def __str__(self):
+        return self.title
 
 class VectorialModel:
     def __init__(self, documents_dict):
@@ -33,6 +54,49 @@ class VectorialModel:
             return 0
 
     def idf(word):
-        math.log(self.total_documents/(self.count_words[word]))
+        try:
+            return math.log(self.total_documents/(self.count_words[word]))
+        except KeyError:
+            return 0
 
+    def calculateWQuery(self, query, frequency, maxW):
+        a = 0.5
+        w = []
+        for word in query:
+            wq = idf(word) * (a + (1-a) * (frequency[word]/maxW))
+            w[word] = wq
+
+        return w 
+
+    def search(query):
+        query = query_processing(query, 'en_core_web_sm')
+        response = []
+        for d in self.documents_dict:
+            if sim(d, q) >= 0.6:
+                response.append(Document(d, self.documents_dict[d]["num"]))
+        return response
+
+    def sim(document, query):
+        frequency, maxW = _wordFrequencyQuery(query)
+        wq = self.calculateWQuery(query, frequency, maxW)
+        wjXwq = 0
+
+        wqTotal2 = 0
+        wjTotal2 = 0
+
+        for w in query:
+            wj = tf(document, w)*idf(w)
+            try:
+                wjXwq += wj * wq[w]
+                wqTotal2 += wq[w]*wq[w]
+            except KeyError:
+                pass
+
+        for w in self.documents_dict[document]["words"]:
+            wj = tf(document, w) * idf(w)
+            wjTotal2 = wj*wj
+
+        den = math.sqrt(wjTotal2) * math.sqrt(wqTotal2)
+
+        return wjXwq/den
 

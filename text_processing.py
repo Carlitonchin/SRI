@@ -138,3 +138,4 @@ def query_processing(query, based_md):
 
 # read_docs('./Modelo_vectorial/dataset1/', 'en_core_web_sm')
 # read_docs('./Modelo_vectorial/Test Collections/Cran/cran.all.1400', 'en_core_web_sm', {})
+print(query_processing(Example_Sentence, 'en_core_web_sm'))
