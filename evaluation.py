@@ -37,7 +37,7 @@ def recovered_docs(model: VectorialModel, query_number: int) -> list:
     query = ' '.join(query.split('\n'))
     
     rec_docs = model.search(query)
-    return rec_docs
+    return [str(rec_doc.num) for rec_doc in rec_docs]
 
 def read_rel_dic() -> dict:
     try:
