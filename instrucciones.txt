@@ -1,0 +1,5 @@
+tener instalado spacy con el modelo 'en_core_web_sm'
+
+ejecutar python3 main.py
+ingresar el texto de la consulta
+mirar los resultados de los documentos recuperados
