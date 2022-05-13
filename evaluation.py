@@ -29,7 +29,7 @@ def relevant_recovered_docs(model: VectorialModel, query_number: int) -> list:
 
 def relevant_docs(query_number: int) -> list:
     rel_dict = read_rel_dic()
-    rel_docs = rel_dict[str(query_number)]["docs"]
+    rel_docs = rel_dict[str(query_number + 1)]['docs']
     return rel_docs
 
 def recovered_docs(model: VectorialModel, query_number: int) -> list:
