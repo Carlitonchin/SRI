@@ -10,7 +10,7 @@ def recover_value(model: VectorialModel, query_number: int):
     return len(rel_rec_docs) / len(rel_docs)
 
 def recover_mean(model: VectorialModel):
-    return statistics.mean([recover_value(model, i) for i in range(1)])
+    return statistics.mean([recover_value(model, i) for i in range(225)])
 
 def precision_value(model: VectorialModel, query_number: int):
     rel_rec_docs = relevant_recovered_docs(model, query_number)
@@ -19,7 +19,7 @@ def precision_value(model: VectorialModel, query_number: int):
     return len(rel_rec_docs) / len(rec_docs)
 
 def precision_mean(model: VectorialModel):
-    return statistics.mean([precision_value(model, i) for i in range(1)])
+    return statistics.mean([precision_value(model, i) for i in range(225)])
 
 def relevant_recovered_docs(model: VectorialModel, query_number: int) -> list:
     rel_docs = relevant_docs(query_number)

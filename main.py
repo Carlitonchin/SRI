@@ -21,8 +21,8 @@ except:
 
 model = VectorialModel(documents_dict)
 
-print("Recover mean:", recover_mean(model))
-print("Precision mean:", precision_mean(model))
+#print("Recover mean:", recover_mean(model))
+#print("Precision mean:", precision_mean(model))
 
 while True:
     query = input("Escribe una query y presiona enter:\n")
