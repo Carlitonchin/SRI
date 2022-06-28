@@ -19,14 +19,14 @@ def get_metricas(docs):
     Calculas la Precisión.
     '''
     precision = 0
-    metricas += f'Precisión: {precision}'
+    metricas += f'Precisión: {precision}\n'
     
     
     '''
     Calculas la Recobrado.
     '''
     recobrado = 0
-    metricas += f'Recobrado: {recobrado}'
+    metricas += f'Recobrado: {recobrado}\n'
     
     '''
     Otras que quieras añadir
