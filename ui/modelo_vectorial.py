@@ -42,7 +42,7 @@ def vtl():
         'Una expresión en el lenguaje booleano.'
         ' Debe tener el formato: "Palabra o no Palabra".'
         ' Ejemplo: "avión no perro no gato caballo carro".',
-        value = "experimental investigation aerodynamics wing slipstream"
+        value = "experimental investigation of the aerodynamics of a wing in a slipstream"
     )
     dataset = st.selectbox("Dataset", ('Cranfield', 'Vaswani'), 
                 help= 'Elija un dataset para evaluar la query.')

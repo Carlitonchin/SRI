@@ -39,7 +39,7 @@ def bln():
 
     query = st.text_input("Consulta", help=
         'Una expresión en el lenguaje natural.',
-        value = "experimental investigation of the aerodynamics of a wing in a slipstream"
+        value = "experimental investigation aerodynamics wing slipstream"
     )
     dataset = st.selectbox("Dataset", ('Cranfield', 'Vaswani'), 
                 help= 'Elija un dataset para evaluar la query.')
