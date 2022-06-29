@@ -1,5 +1,5 @@
-from src.vectorial_model import VectorialModel
-from src.evaluation import recover_mean, precision_mean
+from model import Model, BooleanModel, VectorialModel
+from evaluation import recover_mean, precision_mean
 import json
 
 def print_recovereds(docs):
@@ -19,10 +19,10 @@ except:
     print("No se encuentra el archivo 'dataset.json' en la carpeta cran")
     exit(0)
 
-model = VectorialModel(documents_dict)
+model = BooleanModel(documents_dict)
 
-#print("Recover mean:", recover_mean(model))
-#print("Precision mean:", precision_mean(model))
+print("Recover mean:", recover_mean(model))
+print("Precision mean:", precision_mean(model))
 
 while True:
     query = input("Escribe una query y presiona enter:\n")

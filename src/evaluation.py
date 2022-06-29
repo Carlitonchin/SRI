@@ -1,27 +1,27 @@
 import json
 import re
 import statistics
-from src.vectorial_model import VectorialModel
+from model import Model
 
-def recover_value(model: VectorialModel, query_number: int):
+def recover_value(model: Model, query_number: int):
     rel_rec_docs = relevant_recovered_docs(model, query_number)
     rel_docs = relevant_docs(query_number)
 
     return len(rel_rec_docs) / len(rel_docs)
 
-def recover_mean(model: VectorialModel):
+def recover_mean(model: Model):
     return statistics.mean([recover_value(model, i) for i in range(225)])
 
-def precision_value(model: VectorialModel, query_number: int):
+def precision_value(model: Model, query_number: int):
     rel_rec_docs = relevant_recovered_docs(model, query_number)
     rec_docs = recovered_docs(model, query_number)
     
     return len(rel_rec_docs) / len(rec_docs)
 
-def precision_mean(model: VectorialModel):
+def precision_mean(model: Model):
     return statistics.mean([precision_value(model, i) for i in range(225)])
 
-def relevant_recovered_docs(model: VectorialModel, query_number: int) -> list:
+def relevant_recovered_docs(model: Model, query_number: int) -> list:
     rel_docs = relevant_docs(query_number)
     rec_docs = recovered_docs(model, query_number)
 
@@ -32,7 +32,7 @@ def relevant_docs(query_number: int) -> list:
     rel_docs = rel_dict[str(query_number + 1)]['docs']
     return rel_docs
 
-def recovered_docs(model: VectorialModel, query_number: int) -> list:
+def recovered_docs(model: Model, query_number: int) -> list:
     query: str = read_queries()[query_number]
     query = ' '.join(query.split('\n'))
     
