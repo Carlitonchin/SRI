@@ -25,6 +25,18 @@ def precision_value(model: Model, query_number: int):
 def precision_mean(model: Model):
     return statistics.mean([precision_value(model, i) for i in range(225)])
 
+def f_value(model: Model, query_number: int, beta=1):
+    p = precision_value(model, query_number)
+    r = recover_value(model, query_number)
+    
+    if p == 0 or r == 0:
+        return 0
+
+    return (1 + beta**2) / ((1 / p) + (beta**2 / r))
+
+def f_mean(model: Model, beta=1):
+    return statistics.mean([f_value(model, i, beta) for i in range(225)])
+
 def relevant_recovered_docs(model: Model, query_number: int) -> list:
     rel_docs = relevant_docs(query_number)
     rec_docs = recovered_docs(model, query_number)

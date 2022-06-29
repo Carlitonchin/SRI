@@ -1,37 +1,30 @@
 import streamlit as st
 import pandas as pd
 from src.model import VectorialModel
-from src.evaluation import recover_mean, precision_mean
+from src.evaluation import recover_mean, precision_mean, f_mean
 import json
 
 def get_metricas(model: VectorialModel):
-    '''
-    docs es una lista de Documents, la clase
-    
-    Formato de métricas:
-    Precisión: {value}
-    Recobrado: {value}
-    ... otras que quieras añadir
-    '''
     metricas = ''
     
-    # Your code here
     '''
-    Calculas la Precisión.
+    Precisión.
     '''
-    precision = precision_mean(model)
-    metricas += f'Precisión: {precision}\n'
+    #precision = precision_mean(model)
+    #metricas += f'Precisión: {precision}\n'
     
     
     '''
-    Calculas la Recobrado.
+    Recobrado.
     '''
-    recobrado = recover_mean(model)
-    metricas += f'Recobrado: {recobrado}\n'
+    #recobrado = recover_mean(model)
+    #metricas += f'Recobrado: {recobrado}\n'
     
     '''
-    Otras que quieras añadir
+    F. (Se le puede cambiar el Beta)
     '''
+    #f = f_mean(model, beta=1)
+    #metricas += f'F: {f}\n'
     
     return metricas
 

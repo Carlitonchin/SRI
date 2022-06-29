@@ -1,39 +1,33 @@
 import streamlit as st
 import pandas as pd
 from src.model import BooleanModel
-from src.evaluation import recover_mean, precision_mean
+from src.evaluation import recover_mean, precision_mean, f_mean
 import json
 
 def get_metricas(model_recovered: BooleanModel, model_relevant: BooleanModel):
-    '''
-    docs es una lista de Documents, la clase
-    
-    Formato de métricas:
-    Precisión: {value}
-    Recobrado: {value}
-    ... otras que quieras añadir
-    '''
     metricas = ''
     
     # Your code here
     '''
-    Calculas la Precisión.
+    Precisión.
     '''
-    metricas += f'Precisión de recuperados estricto: {precision_mean(model_recovered)}\n'
-    metricas += f'Precisión de recuperados por partes: {precision_mean(model_relevant)}\n'
-    
-    
-    '''
-    Calculas la Recobrado.
-    '''
-    metricas += f'Recobrado de recuperados estricto: {recover_mean(model_recovered)}\n'
-    metricas += f'Recobrado de recuperados por partes: {recover_mean(model_relevant)}\n'
+    #metricas += f'Precisión de recuperados estricto: {precision_mean(model_recovered)}\n'
+    #metricas += f'Precisión de recuperados por partes: {precision_mean(model_relevant)}\n'
     
     '''
-    Otras que quieras añadir
+    Recobrado.
     '''
+    # metricas += f'Recobrado de recuperados estricto: {recover_mean(model_recovered)}\n'
+    # metricas += f'Recobrado de recuperados por partes: {recover_mean(model_relevant)}\n'
+
+    '''
+    F. (Se le puede cambiar el Beta)
+    '''
+    #metricas += f'F de recuperados estricto: {f_mean(model_recovered, beta=1)}\n'
+    #metricas += f'F de recuperados por partes: {f_mean(model_relevant, beta=1)}\n'
     
     return metricas
+
 def bln():
     st.title("Modelo Booleano")
     st.header("Introduzca los datos necesarios para su cómputo")
