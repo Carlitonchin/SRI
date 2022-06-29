@@ -1,12 +1,14 @@
 import json
 import re
 import statistics
-from model import Model
+from src.model import Model
 
 def recover_value(model: Model, query_number: int):
     rel_rec_docs = relevant_recovered_docs(model, query_number)
     rel_docs = relevant_docs(query_number)
 
+    if len(rel_docs) == 0:
+        return 1
     return len(rel_rec_docs) / len(rel_docs)
 
 def recover_mean(model: Model):
@@ -16,6 +18,8 @@ def precision_value(model: Model, query_number: int):
     rel_rec_docs = relevant_recovered_docs(model, query_number)
     rec_docs = recovered_docs(model, query_number)
     
+    if len(rec_docs) == 0:
+        return 1
     return len(rel_rec_docs) / len(rec_docs)
 
 def precision_mean(model: Model):

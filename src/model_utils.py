@@ -1,4 +1,4 @@
-from text_processing import cleansing_query
+from src.text_processing import cleansing_query
 
 class Document:
     def __init__(self, title, num):

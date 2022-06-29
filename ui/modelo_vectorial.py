@@ -1,9 +1,10 @@
 import streamlit as st
 import pandas as pd
-from src.vectorial_model import VectorialModel
+from src.model import VectorialModel
+from src.evaluation import recover_mean, precision_mean
 import json
 
-def get_metricas(docs):
+def get_metricas(model: VectorialModel):
     '''
     docs es una lista de Documents, la clase
     
@@ -18,14 +19,14 @@ def get_metricas(docs):
     '''
     Calculas la Precisión.
     '''
-    precision = 0
+    precision = precision_mean(model)
     metricas += f'Precisión: {precision}\n'
     
     
     '''
     Calculas la Recobrado.
     '''
-    recobrado = 0
+    recobrado = recover_mean(model)
     metricas += f'Recobrado: {recobrado}\n'
     
     '''
@@ -68,7 +69,7 @@ def vtl():
             placeholder.empty()
             data = {'Documentos' : recovered_docs}
             st.write(pd.DataFrame(data = data))
-            metrics = get_metricas(recovered)
+            metrics = get_metricas(model)
             st.write(metrics)
         else:
             st.write("Necesitas escribir una consulta")

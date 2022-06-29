@@ -1,7 +1,7 @@
 from typing import List
-from model_utils import Document, get_query, _calculateMaxs, _wordFrequencyQuery
+from src.model_utils import Document, get_query, _calculateMaxs, _wordFrequencyQuery
 import math
-from text_processing import query_processing
+from src.text_processing import query_processing
 
 class Model:
     def __init__(self, documents_dict):

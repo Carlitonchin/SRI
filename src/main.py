@@ -1,5 +1,5 @@
-from model import Model, BooleanModel, VectorialModel
-from evaluation import recover_mean, precision_mean
+from src.model import Model, BooleanModel, VectorialModel
+from src.evaluation import recover_mean, precision_mean
 import json
 
 def print_recovereds(docs):

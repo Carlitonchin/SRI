@@ -1,9 +1,10 @@
 import streamlit as st
 import pandas as pd
-from src.boolean_model import BooleanModel
+from src.model import BooleanModel
+from src.evaluation import recover_mean, precision_mean
 import json
 
-def get_metricas(docs):
+def get_metricas(model_recovered: BooleanModel, model_relevant: BooleanModel):
     '''
     docs es una lista de Documents, la clase
     
@@ -18,15 +19,15 @@ def get_metricas(docs):
     '''
     Calculas la Precisión.
     '''
-    precision = 0
-    metricas += f'Precisión: {precision}\n'
+    metricas += f'Precisión de recuperados estricto: {precision_mean(model_recovered)}\n'
+    metricas += f'Precisión de recuperados por partes: {precision_mean(model_relevant)}\n'
     
     
     '''
     Calculas la Recobrado.
     '''
-    recobrado = 0
-    metricas += f'Recobrado: {recobrado}\n'
+    metricas += f'Recobrado de recuperados estricto: {recover_mean(model_recovered)}\n'
+    metricas += f'Recobrado de recuperados por partes: {recover_mean(model_relevant)}\n'
     
     '''
     Otras que quieras añadir
@@ -56,8 +57,13 @@ def bln():
             except:
                 st.write("No se encuentra el archivo 'dataset.json' en la carpeta")
                 exit(0)
-            model = BooleanModel(documents_dict)
-            recovered, relevants = model.search(query)
+
+            model_recovered = BooleanModel(documents_dict)
+            model_relevant = BooleanModel(documents_dict, True)
+
+            recovered = model_recovered.search(query)
+            relevants = model_relevant.search(query)
+
             recovered_docs = []
             for doc in recovered:
                 recovered_docs.append(f'Doc #{doc.num}: {doc.title}')
@@ -69,7 +75,7 @@ def bln():
             st.write(pd.DataFrame(data = data))
             data = {'Documentos recuperados por partes' : relevant_docs}
             st.write(pd.DataFrame(data = data))
-            metrics = get_metricas(recovered)
+            metrics = get_metricas(model_recovered, model_relevant)
             st.write(metrics)
         else:
             st.write("Necesitas escribir una consulta")
