@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
-from src.boolean_model import BooleanModel
+from src.model import BooleanModel
+from src.evaluation import recover_mean, precision_mean, f_mean
 import json
 
 def get_metricas(RR, RN, DR, NR, Rel):
@@ -19,7 +20,7 @@ def get_metricas(RR, RN, DR, NR, Rel):
     metricas = ''
     
     '''
-    Calculas la Precisión.
+    Precisión.
     '''
     precision = 0
     try:
@@ -27,9 +28,11 @@ def get_metricas(RR, RN, DR, NR, Rel):
     except:
         pass
     metricas += f'Precisión: {precision}\n'
+    #metricas += f'Precisión de recuperados estricto: {precision_mean(model_recovered)}\n'
+    #metricas += f'Precisión de recuperados por partes: {precision_mean(model_relevant)}\n'
     
     '''
-    Calculas la Recobrado.
+    Recobrado.
     '''
     recobrado = 0
     try:
@@ -46,8 +49,17 @@ def get_metricas(RR, RN, DR, NR, Rel):
     '''
     Otras que quieras añadir
     '''
+    # metricas += f'Recobrado de recuperados estricto: {recover_mean(model_recovered)}\n'
+    # metricas += f'Recobrado de recuperados por partes: {recover_mean(model_relevant)}\n'
+
+    '''
+    F. (Se le puede cambiar el Beta)
+    '''
+    #metricas += f'F de recuperados estricto: {f_mean(model_recovered, beta=1)}\n'
+    #metricas += f'F de recuperados por partes: {f_mean(model_relevant, beta=1)}\n'
     
     return metricas
+
 def bln():
     st.title("Modelo Booleano")
     st.header("Introduzca los datos necesarios para su cómputo")
@@ -76,9 +88,17 @@ def bln():
             except:
                 st.write("No se encuentra el archivo 'dataset.json' en la carpeta")
                 exit(0)
-            model = BooleanModel(documents_dict)
-            recovered, relevants = model.search(query)
+            # model = BooleanModel(documents_dict)
+            # recovered, relevants = model.search(query)
             
+            
+
+            model_recovered = BooleanModel(documents_dict)
+            model_relevant = BooleanModel(documents_dict, True)
+
+            recovered = model_recovered.search(query)
+            relevants = model_relevant.search(query)
+
             try:
                 with open(qrel_path, 'r') as _data:
                     rel_dict = json.load(_data)
@@ -87,7 +107,6 @@ def bln():
                 exit(0)
             
             placeholder.empty()
-            
             recovered_docs = []
             relevant_docs = []
             
