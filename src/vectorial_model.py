@@ -5,17 +5,17 @@ def _calculateMaxs(documents_dict):
     max_per_document = {}
     count_words = {}
 
-    for title in documents_dict:
+    for doc_id in documents_dict:
         localMax = 0
 
-        for w in documents_dict[title]["words"]:
-            localMax = max(localMax, documents_dict[title]["words"][w])
+        for w in documents_dict[doc_id]["words"]:
+            localMax = max(localMax, documents_dict[doc_id]["words"][w])
             try:
                 count_words[w] += 1
             except KeyError:
                 count_words[w] = 1
 
-        max_per_document[title] = localMax
+        max_per_document[doc_id] = localMax
 
     return max_per_document, count_words
 
@@ -34,7 +34,7 @@ def _wordFrequencyQuery(query):
     return frequency, maxW
 
 class Document:
-    def __init__(self, title, num):
+    def __init__(self, num, title):
         self.title = title
         self.num = num
     
@@ -74,7 +74,7 @@ class VectorialModel:
         response = []
         for d in self.documents_dict:
             if self.sim(d, query) >= 0.6:
-                response.append(Document(d, self.documents_dict[d]["num"]))
+                response.append(Document(d, self.documents_dict[d]["tittle"]))
         return response
 
     def sim(self, document, query):

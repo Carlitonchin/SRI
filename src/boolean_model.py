@@ -21,7 +21,7 @@ def get_query(query):
             words[word] = 1
     return words
 class Document:
-    def __init__(self, title, num):
+    def __init__(self, num, title):
         self.title = title
         self.num = num
     
@@ -37,12 +37,12 @@ class BooleanModel:
     def search(self, query):
         retrieved, relevants = self.boolean_retrieve(query)
         retrieved_docs = []
-        for tittle in retrieved:
-            retrieved_docs.append(Document(tittle, self.documents_dict[tittle]["num"]))
+        for doc_id in retrieved:
+            retrieved_docs.append(Document(doc_id, self.documents_dict[doc_id]["tittle"]))
         relevants_docs = []
         relevants = sorted(relevants, key=lambda a: -relevants[a])
-        for tittle in relevants:
-            relevants_docs.append(Document(tittle, self.documents_dict[tittle]["num"]))
+        for doc_id in relevants:
+            relevants_docs.append(Document(doc_id, self.documents_dict[doc_id]["tittle"]))
         return retrieved_docs, relevants_docs
     
     def boolean_retrieve(self, query):
@@ -50,8 +50,8 @@ class BooleanModel:
         retrieved_docs = []
         relevant_docs = {}
 
-        for tittle in self.documents_dict:
-            doc = self.documents_dict[tittle]
+        for doc_id in self.documents_dict:
+            doc = self.documents_dict[doc_id]
             doc_words = doc["words"]
             valid = True
             relevance = 0
@@ -63,9 +63,9 @@ class BooleanModel:
                     valid = False
                     # break
             if valid:
-                retrieved_docs.append(tittle)
+                retrieved_docs.append(doc_id)
             if relevance != 0:
-                relevant_docs[tittle] = relevance
+                relevant_docs[doc_id] = relevance
 
         return retrieved_docs, relevant_docs
 
