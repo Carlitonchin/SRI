@@ -1,4 +1,0 @@
-tener instalado spacy con el modelo 'en_core_web_sm'
-
-ejecutar make run para correr el proyecto
-ejecutar make install para instalar las dependencias
