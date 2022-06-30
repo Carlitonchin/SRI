@@ -71,7 +71,7 @@ def bln():
     dataset = st.selectbox("Dataset", ('Cranfield', 'Vaswani'), 
                 help= 'Elija un dataset para evaluar la query.')
     
-    query_rel_num = st.selectbox("Dataset", tuple([i for i in range(365 if dataset == "Cranfield" else 93)]), 
+    query_rel_num = st.selectbox("Número de la consulta", tuple([i for i in range(365 if dataset == "Cranfield" else 93)]), 
                 help= 'Elija el número de la consulta. El valor es 0 si no está entre las consultas recomendadas')
     
     run = st.button("Computar")
